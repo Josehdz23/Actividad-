@@ -36,16 +36,16 @@ def ingreso():
                     except Exception as ex:
                         print(f"Ha ocurrido un error: {ex}")
                 while True:
-                    categoria = input("Ingrese la categoría del participante (Juvenil, Adulto, Máster): ")
+                    categoria = input("Ingrese la categoría del participante (Juvenil, Adulto, Máster): ").upper()
                     if categoria or categoria.isspace():
-                        if ((categoria == "Juvenil") or (categoria == "Adulto") or (categoria == "Máster")):
+                        if ((categoria == "JUVENIL") or (categoria == "ADULTO") or (categoria == "MÁSTER")):
                             break
                         else:
                             print("La categoría ingresada no es válida, reintente")
                     else:
                         print("Nombre inválido, reintente")
-                participantes[nombre] = {
-                    "dorsal": dorsal,
+                participantes[dorsal] = {
+                    "nombre": nombre,
                     "edad": edad,
                     "categoria": categoria
                 }
@@ -53,15 +53,25 @@ def ingreso():
         except Exception as ex:
             print(f"Ha ocurrido un error: {ex}")
 
-def quick_sort(lista):
+def quick_sort_nombre(lista):
     if len(lista) <= 1:
         return lista
     else:
         pivote = lista[0]
-        menores = [x for x in lista[1:] if x[1] < pivote[1]]
-        iguales = [x for x in lista if x[1] == pivote[1]]
-        mayores = [x for x in lista[1:] if x[1] > pivote[1]]
-        return quick_sort(menores) + iguales + quick_sort(mayores)
+        menores = [x for x in lista[1:] if x[1]["nombre"] < pivote[1]["nombre"]]
+        iguales = [x for x in lista if x[1]["nombre"] == pivote[1]["nombre"]]
+        mayores = [x for x in lista[1:] if x[1]["nombre"] > pivote[1]["nombre"]]
+        return quick_sort_nombre(menores) + iguales + quick_sort_nombre(mayores)
+
+def mostrarPorNombre():
+    if participantes:
+        lista = list(participantes.items())
+        ordenada = quick_sort_nombre(lista)
+        diccionarioOrdenado = dict(ordenada)
+        for clave, datos in diccionarioOrdenado.items():
+            print(f"-{datos["nombre"]} (Dorsal: {clave}, Edad: {datos["edad"]}, Categoria: {datos["categoria"]})")
+    else:
+        print("No hay participantes registrados!!!")
 
 def main():
     while True:
@@ -72,7 +82,7 @@ def main():
                 case 1:
                     ingreso()
                 case 2:
-                    print("2")
+                    mostrarPorNombre()
                 case 3:
                     print("3")
                 case 4:
