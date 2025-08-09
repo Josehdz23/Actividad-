@@ -63,10 +63,30 @@ def quick_sort_nombre(lista):
         mayores = [x for x in lista[1:] if x[1]["nombre"] > pivote[1]["nombre"]]
         return quick_sort_nombre(menores) + iguales + quick_sort_nombre(mayores)
 
+def quick_sort_edad(lista):
+    if len(lista) <= 1:
+        return lista
+    else:
+        pivote = lista[0]
+        menores = [x for x in lista[1:] if x[1]["edad"] < pivote[1]["edad"]]
+        iguales = [x for x in lista if x[1]["edad"] == pivote[1]["edad"]]
+        mayores = [x for x in lista[1:] if x[1]["edad"] > pivote[1]["edad"]]
+        return quick_sort_nombre(menores) + iguales + quick_sort_nombre(mayores)
+
 def mostrarPorNombre():
     if participantes:
         lista = list(participantes.items())
         ordenada = quick_sort_nombre(lista)
+        diccionarioOrdenado = dict(ordenada)
+        for clave, datos in diccionarioOrdenado.items():
+            print(f"-{datos["nombre"]} (Dorsal: {clave}, Edad: {datos["edad"]}, Categoria: {datos["categoria"]})")
+    else:
+        print("No hay participantes registrados!!!")
+
+def mostrarPorEdad():
+    if participantes:
+        lista = list(participantes.items())
+        ordenada = quick_sort_edad(lista)
         diccionarioOrdenado = dict(ordenada)
         for clave, datos in diccionarioOrdenado.items():
             print(f"-{datos["nombre"]} (Dorsal: {clave}, Edad: {datos["edad"]}, Categoria: {datos["categoria"]})")
@@ -84,7 +104,7 @@ def main():
                 case 2:
                     mostrarPorNombre()
                 case 3:
-                    print("3")
+                    mostrarPorEdad()
                 case 4:
                     print("\nS A L I E N D O . . .")
                     break
