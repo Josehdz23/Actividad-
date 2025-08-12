@@ -1,5 +1,3 @@
-from idlelib.autocomplete import TRY_A
-
 participantes = {}
 def menu():
     print("\n= = = = MENÚ DE OPCIONES = = = =\n1. Agregar participante\n2. Mostrar participantes ordenados por nombre\n3. Mostrar participantes ordenados por edad\n4. Salir")
